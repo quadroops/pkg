@@ -11,13 +11,13 @@ This library provide basic methods for logging, there are `Logger` and `Sender`.
 ```go
 // Logger is main abstraction
 type Logger interface {
-	Debug(msg string)
-	Debugf(format string, v ...interface{})
-	Warn(msg string)
-	Warnf(format string, v ...interface{})
-	Info(msg string)
-	Infof(format string, v ...interface{})
-	Error(msg string)
+    Debug(msg string)
+    Debugf(format string, v ...interface{})
+    Warn(msg string)
+    Warnf(format string, v ...interface{})
+    Info(msg string)
+    Infof(format string, v ...interface{})
+    Error(msg string)
     Errorf(format string, v ...interface{})
     Fatal(msg string)
     Fatalf(format string, v ...interface{})
