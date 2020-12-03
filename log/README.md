@@ -79,6 +79,12 @@ log.LevelError
 log.LevelFatal
 ```
 
+## Installation
+
+```
+go get -v -u github.com/quadroops/pkg/log
+```
+
 ## Usages
 
 An example :
