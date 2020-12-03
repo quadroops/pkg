@@ -104,7 +104,7 @@ logger.Info("log some variable").Info("another variable").Error("error here")
 logger = log.New(adapter.Zerolog(), "mylogger").WithSender(sender.Console())
 logger.Info("hello world")
 
-// without adapter, will use golang log standard library, if you are prefer this way, you can't use `Sender`
+// without adapter, will use golang log standard library, but, you can't use `Sender`
 log.Info("hello world")
 ```
 
