@@ -48,8 +48,6 @@ These activities usually for data/system analytics.  When you are registering a 
 Main responsibility of `adapter` is to format the message and the send it to their `writer`.  The format can be anything, json, string, or maybe even a bytes (well i dont know if this idea is exist or not).  Available adapters:
 
 - [zerolog](https://github.com/rs/zerolog)
-- [logrus](https://github.com/sirupsen/logrus)
-- [uber-zap](https://github.com/uber-go/zap)
 
 ## Sender
 
