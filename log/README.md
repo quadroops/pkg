@@ -7,6 +7,8 @@ What this library provides are:
 - Simple interface for sending log message and their meta 
 - Contextual log.  Log based on some context can be an event / a process, or anything, the main point is we can manage based on some context
 
+We are not try to create a "new log writer", we are using adapter for that purpose.
+
 ## Interfaces
 
 This library provide basic methods for logging, there are `Logger` and `Sender`. 
