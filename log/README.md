@@ -1,5 +1,7 @@
 # Log
 
+[![PkgGoDev](https://pkg.go.dev/badge/github.com/quadroops/pkg/log)](https://pkg.go.dev/github.com/quadroops/pkg/log)
+
 It's not a "real" library for logging.  There are so many log library out there, and each of them has their own methods.  
 What this library provides are:
 
