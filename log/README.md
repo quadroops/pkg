@@ -32,8 +32,9 @@ type Logger interface {
 
 // Sender used as a hook interface methods
 type Sender interface {
-    AfterLog(msg string)
-} 
+	Send(msg string)
+	Sendf(format string, v ...interface{})
+}
 
 ```
 
@@ -52,7 +53,9 @@ These activities usually for data/system analytics.  When you are registering a 
 
 ## Adapter
 
-Main responsibility of `adapter` is to format the message and the send it to their `writer`.  The format can be anything, json, string, or maybe even a bytes (well i dont know if this idea is exist or not).  Available adapters:
+Main responsibility of `adapter` is to format the message and the send it to their `writer`.  The format can be anything, json, string, or maybe even a bytes (well i dont know if this idea is exist or not), depends on used adapater.  
+
+Available adapters:
 
 - [zerolog](https://github.com/rs/zerolog)
 
@@ -72,14 +75,14 @@ logger.Info("hello world")
 
 Hierarchy :
 
-> Debug -> Warn -> Info -> Error -> Fatal 
+> Debug -> Info -> Warn -> Error -> Fatal 
 
 Available levels:
 
 ```go
 log.LevelDebug
-log.LevelWarn
 log.LevelInfo
+log.LevelWarn
 log.LevelError
 log.LevelFatal
 ```

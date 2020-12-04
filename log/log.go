@@ -160,7 +160,7 @@ func (l *Log) Errorf(format string, v ...interface{}) *Log {
 	return l
 }
 
-// Fatal .
+// Fatal is a final level, there are no process to checking log's level here
 func (l *Log) Fatal(msg string) *Log {
 	if l.opt.IsAsync {
 		go l.adapter.Fatal(msg)
@@ -171,7 +171,7 @@ func (l *Log) Fatal(msg string) *Log {
 	return l
 }
 
-// Fatalf .
+// Fatalf same with Fatal, but it's use formatting message
 func (l *Log) Fatalf(format string, v ...interface{}) *Log {
 	if l.opt.IsAsync {
 		go l.adapter.Fatalf(format, v...)

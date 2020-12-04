@@ -4,11 +4,11 @@ const (
 	// LevelDebug .
 	LevelDebug = iota
 
-	// LevelWarn .
-	LevelWarn
-
 	// LevelInfo .
 	LevelInfo
+
+	// LevelWarn .
+	LevelWarn
 
 	// LevelError .
 	LevelError
