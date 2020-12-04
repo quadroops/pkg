@@ -1,8 +1,11 @@
 # Log
 
-It's not a "real" library for logging.  This library is just a simple logging wrapper.  There are so many
-log library out there, and each of them has their own methods.  This library is just a simple wrapper but also
-provide a simple but consistent interface for logging.
+It's not a "real" library for logging.  There are so many log library out there, and each of them has their own methods.  
+What this library provides are:
+
+- Simple but consistent log interface methods
+- Simple interface for sending log message and their meta 
+- Contextual log.  Log based on some context can be an event / a process, or anything, the main point is we can manage based on some context
 
 ## Interfaces
 
@@ -30,15 +33,15 @@ type Sender interface {
 
 ```
 
-Why just a simple `msg` (string) ? Because this library doesn't want to adding more _complexity_ just to formatting a log message, so it's just a message of string
-or a formatted string (actually it's using `fmt.Sprintf`) and that's it.  And actually, you can create your own adapter maybe if you think you need
-more custom format like json.
+Why just a simple `msg` (string) ? Because this library doesn't want to adding more _complexity_ to formatting a log message, so it's just a message of string
+or a formatted string (actually it's using `fmt.Sprintf`). 
 
 How about `Sender` ? Sometimes, (maybe) we have an activity like : 
 
-- Send a message to apache kafka
+- Send a message to nats 
 - Send a message to elastic search
 - Send a message to database
+- Send a message to file
 - etc
 
 These activities usually for data/system analytics.  When you are registering a `Sender` object, this method will be executed in a different goroutine.
