@@ -6,8 +6,10 @@ It's not a "real" library for logging.  There are so many log library out there,
 What this library provides are:
 
 - Simple but consistent log interface methods
-- Simple interface for sending log message and their meta 
-- Contextual log.  Log based on some context can be an event / a process, or anything, the main point is we can manage based on some context
+- Simple interface for sending log message 
+- Contextual log.  Log based on some context can be an event / a process, or anything, the main point is we can manage our log
+more specific and detail.  Contextual log also provide logging metadata and also time measurement.  Metadata will printed out only
+if an error happened, using `Warn`.  If you are using contextual logging, all logging's level will be enabled except for `Debug` level.  
 
 We are not try to create a "new log writer", we are using adapter for that purpose.
 
@@ -32,10 +34,9 @@ type Logger interface {
 
 // Sender used as a hook interface methods
 type Sender interface {
-	Send(msg string)
-	Sendf(format string, v ...interface{})
+    Send(msg string)
+    Sendf(format string, v ...interface{})
 }
-
 ```
 
 Why just a simple `msg` (string) ? Because this library doesn't want to adding more _complexity_ to formatting a log message, so it's just a message of string
@@ -85,6 +86,37 @@ log.LevelInfo
 log.LevelWarn
 log.LevelError
 log.LevelFatal
+```
+
+## Contextual
+
+The main concept of our "contextual log" is about how we manage / grouping our log based on some specific context.  A "context" can be an event , a process or anything
+relate with your application's domain activities.
+
+The differences with "common log" is, contextual used for more detail and specific analytical log.  If you need to analyze your data log, sometimes you need a "context" for that data.
+
+Example:
+
+```go
+// process1
+logger := log.Contextual(adapter.NewZerolog(), "process1")
+logc := logger.Meta(log.KV("requestID", "xid"), log.KV("token", "token"))
+
+// Measure must be called in the end of process, it will calculate time current process
+// from the beginning
+logc.Info("Incoming request...").Info("Running service logic...").Measure()
+
+
+// create 'process2' contextual log from previous instance of 'process1' using same adapter
+// if you want to use other adapter you'll need to use log.Contextual(...)
+logger = logc.NewContextual("process2")
+logc = logger.Meta(log.KV("payload", &SomeStruct{}))
+logc.Info("Save to database")
+
+// do something
+
+// when error happened, all saved metadata will be printed out using Warn
+logc.Errorf("Error msg: %s", err.Error()).Measure()
 ```
 
 ## Installation

@@ -1,5 +1,9 @@
 package log
 
+import (
+	"time"
+)
+
 const (
 	// LevelDebug .
 	LevelDebug = iota
@@ -51,5 +55,19 @@ type Log struct {
 	name    string
 }
 
+// ContextualLog is main object for contextual logging
+type ContextualLog struct {
+	adapter   Logger
+	startTime time.Time
+	meta      []KeyValue
+	name      string
+}
+
 // Optional used as functional options to our logging
 type Optional func(o *Option)
+
+// KeyValue used to save all metadata
+type KeyValue struct {
+	Key   string
+	Value interface{}
+}
