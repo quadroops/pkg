@@ -35,7 +35,7 @@ func (c *ContextualLog) Meta(kv ...KeyValue) *ContextualLog {
 // current object's instance.
 func (c *ContextualLog) Measure() {
 	elapsed := time.Since(c.startTime)
-	c.adapter.Infof("Measurement: %s", elapsed)
+	c.adapter.Infof(c.formatMsgWithName("Measurement: %s"), elapsed)
 }
 
 // Info used to log something with Info level
