@@ -31,11 +31,10 @@ func (c *ContextualLog) Meta(kv ...KeyValue) *ContextualLog {
 }
 
 // Measure used to setup time measurement.  This method should not return
-// current object's instance, because this method should be called in the end of some
-// process
+// current object's instance.
 func (c *ContextualLog) Measure() {
 	elapsed := time.Since(c.startTime)
-	c.Infof("Measurement: %s", elapsed)
+	c.adapter.Infof("Measurement: %s", elapsed)
 }
 
 // Info used to log something with Info level
