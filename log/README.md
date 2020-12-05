@@ -111,7 +111,10 @@ logc.Info("Incoming request...").Info("Running service logic...").Measure()
 // if you want to use other adapter you'll need to use log.Contextual(...)
 logger = logc.NewContextual("process2")
 logc = logger.Meta(log.KV("payload", &SomeStruct{}))
-logc.Info("Save to database")
+
+// you can get time measurement per log level
+logc.Info("Save to database").Measure()
+logc.Info("Processing...").Measure()
 
 // do something
 

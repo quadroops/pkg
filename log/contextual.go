@@ -1,6 +1,7 @@
 package log
 
 import (
+	"fmt"
 	"time"
 )
 
@@ -31,62 +32,61 @@ func (c *ContextualLog) Meta(kv ...KeyValue) *ContextualLog {
 }
 
 // Measure used to setup time measurement.  This method should not return
-// current object's instance, because this method should be called in the end of some
-// process
+// current object's instance.
 func (c *ContextualLog) Measure() {
 	elapsed := time.Since(c.startTime)
-	c.Infof("Measurement: %s", elapsed)
+	c.adapter.Infof("Measurement: %s", elapsed)
 }
 
 // Info used to log something with Info level
 func (c *ContextualLog) Info(msg string) *ContextualLog {
-	c.adapter.Info(msg)
+	c.adapter.Info(c.formatMsgWithName(msg))
 	return c
 }
 
 // Infof used to log formatted string with Info level
 func (c *ContextualLog) Infof(format string, v ...interface{}) *ContextualLog {
-	c.adapter.Infof(format, v...)
+	c.adapter.Infof(c.formatMsgWithName(format), v...)
 	return c
 }
 
 // Warn used to log something with Warn level
 func (c *ContextualLog) Warn(msg string) *ContextualLog {
-	c.adapter.Warn(msg)
+	c.adapter.Warn(c.formatMsgWithName(msg))
 	return c
 }
 
 // Warnf used to log formatted string with Warn level
 func (c *ContextualLog) Warnf(format string, v ...interface{}) *ContextualLog {
-	c.adapter.Warnf(format, v...)
+	c.adapter.Warnf(c.formatMsgWithName(format), v...)
 	return c
 }
 
 // Error used to log something with Error level, and also print out all saved metadata
 func (c *ContextualLog) Error(msg string) *ContextualLog {
 	c.printOutMeta()
-	c.adapter.Error(msg)
+	c.adapter.Error(c.formatMsgWithName(msg))
 	return c
 }
 
 // Errorf used to log formatted string with Error level, and also print out all saved metadata
 func (c *ContextualLog) Errorf(format string, v ...interface{}) *ContextualLog {
 	c.printOutMeta()
-	c.adapter.Errorf(format, v...)
+	c.adapter.Errorf(c.formatMsgWithName(format), v...)
 	return c
 }
 
 // Fatal used to log something with Fatal level, and also print out all saved metadata
 func (c *ContextualLog) Fatal(msg string) *ContextualLog {
 	c.printOutMeta()
-	c.adapter.Fatal(msg)
+	c.adapter.Fatal(c.formatMsgWithName(msg))
 	return c
 }
 
 // Fatalf used to log something with Fatal level, and also print out all saved metadata
 func (c *ContextualLog) Fatalf(format string, v ...interface{}) *ContextualLog {
 	c.printOutMeta()
-	c.adapter.Fatalf(format, v...)
+	c.adapter.Fatalf(c.formatMsgWithName(format), v...)
 	return c
 }
 
@@ -94,4 +94,8 @@ func (c *ContextualLog) printOutMeta() {
 	for _, kv := range c.meta {
 		c.Warnf("[meta] %s: %v", kv.Key, kv.Value)
 	}
+}
+
+func (c *ContextualLog) formatMsgWithName(msg string) string {
+	return fmt.Sprintf("[%s] %s", c.name, msg)
 }
