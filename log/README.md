@@ -122,6 +122,28 @@ logc.Info("Processing...").Measure()
 logc.Errorf("Error msg: %s", err.Error()).Measure()
 ```
 
+An example output:
+
+```
+2020-12-05T12:06:01+07:00 INF [process1]: Starting process...
+2020-12-05T12:06:01+07:00 INF [process2]: Starting new process...
+2020-12-05T12:06:03+07:00 INF [process2]: Process success...
+2020-12-05T12:06:03+07:00 INF [process2]: Starting second process...
+2020-12-05T12:06:03+07:00 INF [process1]: End porcess...
+2020-12-05T12:06:03+07:00 INF [process1]: Measurement: 2.0022325s
+2020-12-05T12:06:03+07:00 INF [process1]: Start another process...
+2020-12-05T12:06:05+07:00 WRN [process2]: [meta] key1: 1
+2020-12-05T12:06:05+07:00 WRN [process2]: [meta] key2: 2
+2020-12-05T12:06:05+07:00 WRN [process2]: [meta] key3: 3
+2020-12-05T12:06:05+07:00 ERR [process2]: Something went wrong...
+2020-12-05T12:06:05+07:00 INF [process2]: Measurement: 4.0050952s
+2020-12-05T12:06:08+07:00 WRN [process1]: [meta] requestID: random-id
+2020-12-05T12:06:08+07:00 WRN [process1]: [meta] key1: val1
+2020-12-05T12:06:08+07:00 WRN [process1]: [meta] key2: 2
+2020-12-05T12:06:08+07:00 ERR [process1]: Then error...
+2020-12-05T12:06:08+07:00 INF [process1]: Measurement: 7.0059645s
+```
+
 ## Installation
 
 ```
