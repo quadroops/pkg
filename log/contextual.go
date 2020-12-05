@@ -37,7 +37,7 @@ func (c *ContextualLog) Meta(kv ...KeyValue) *ContextualLog {
 // current object's instance.
 func (c *ContextualLog) Measure() {
 	elapsed := time.Since(c.startTime)
-	c.adapter.Infof(c.formatMsgWithName("Measurement: %s"), elapsed)
+	c.adapter.Infof(c.formatMsgWithName(c.colorizedOutput("Measurement: %s", color.FgCyan)), elapsed)
 }
 
 // Info used to log something with Info level
@@ -99,7 +99,7 @@ func (c *ContextualLog) printOutMeta() {
 }
 
 func (c *ContextualLog) formatMsgWithName(msg string) string {
-	return fmt.Sprintf("%s: %s", c.colorizedOutput(c.name, color.FgGreen), msg)
+	return fmt.Sprintf("%s: %s", c.colorizedOutput(fmt.Sprintf("[%s]", c.name), color.FgMagenta), msg)
 }
 
 func (c *ContextualLog) colorizedOutput(out string, attr color.Attribute) string {
