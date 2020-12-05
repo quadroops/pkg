@@ -3,6 +3,8 @@ package log
 import (
 	"fmt"
 	"time"
+
+	"github.com/fatih/color"
 )
 
 // KV used to setup new object KeyValue
@@ -92,10 +94,14 @@ func (c *ContextualLog) Fatalf(format string, v ...interface{}) *ContextualLog {
 
 func (c *ContextualLog) printOutMeta() {
 	for _, kv := range c.meta {
-		c.Warnf("[meta] %s: %v", kv.Key, kv.Value)
+		c.Warnf("%s %s: %v", c.colorizedOutput("[meta]", color.FgYellow), kv.Key, kv.Value)
 	}
 }
 
 func (c *ContextualLog) formatMsgWithName(msg string) string {
-	return fmt.Sprintf("[%s] %s", c.name, msg)
+	return fmt.Sprintf("%s: %s", c.colorizedOutput(c.name, color.FgGreen), msg)
+}
+
+func (c *ContextualLog) colorizedOutput(out string, attr color.Attribute) string {
+	return color.New(attr).Sprintf("%s", out)
 }
