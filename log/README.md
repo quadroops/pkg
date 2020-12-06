@@ -40,6 +40,9 @@ Available adapters:
 
 - [zerolog](https://github.com/rs/zerolog)
 
+If you want to create another adapter, you have to make sure your adapter implement `Logger` interface.  You can create an adapter with your own options / configurations,
+as long as implement same interface.
+
 ## Level
 
 You can set minimal log level : 
