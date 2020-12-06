@@ -64,6 +64,8 @@ log.LevelError
 log.LevelFatal
 ```
 
+This log level only applied for standard logging and not for `ContextualLog`.
+
 ## Contextual
 
 The main concept of our "contextual log" is about how we manage / grouping our log based on some specific context.  A "context" can be an event , a process or anything
