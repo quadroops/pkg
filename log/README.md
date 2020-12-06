@@ -6,7 +6,6 @@ It's not a "real" library for logging.  There are so many log library out there,
 What this library provides are:
 
 - Simple but consistent log interface methods
-- Simple interface for sending log message 
 - Contextual log.  Log based on some context can be an event / a process, or anything, the main point is we can manage our log
 more specific and detail.  Contextual log also provide logging metadata and also time measurement.  Metadata will printed out only
 if an error happened, using `Warn`.  If you are using contextual logging, all logging's level will be enabled except for `Debug` level.  
@@ -15,7 +14,7 @@ We are not try to create a "new log writer", we are using adapter for that purpo
 
 ## Interfaces
 
-This library provide basic methods for logging, there are `Logger` and `Sender`. 
+This library provide basic methods for logging. 
 
 ```go
 // Logger is main abstraction
@@ -31,26 +30,7 @@ type Logger interface {
     Fatal(msg string)
     Fatalf(format string, v ...interface{})
 }
-
-// Sender used as a hook interface methods
-type Sender interface {
-    Send(msg string)
-    Sendf(format string, v ...interface{})
-}
 ```
-
-Why just a simple `msg` (string) ? Because this library doesn't want to adding more _complexity_ to formatting a log message, so it's just a message of string
-or a formatted string (actually it's using `fmt.Sprintf`). 
-
-How about `Sender` ? Sometimes, (maybe) we have an activity like : 
-
-- Send a message to nats 
-- Send a message to elastic search
-- Send a message to database
-- Send a message to file
-- etc
-
-These activities usually for data/system analytics.  When you are registering a `Sender` object, this method will be executed in a different goroutine.
 
 ## Adapter
 
@@ -59,10 +39,6 @@ Main responsibility of `adapter` is to format the message and the send it to the
 Available adapters:
 
 - [zerolog](https://github.com/rs/zerolog)
-
-## Sender
-
-For now available sender only a `Console`, this object used just for example.
 
 ## Level
 
