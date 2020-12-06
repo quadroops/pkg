@@ -35,12 +35,6 @@ type Logger interface {
 	Fatalf(format string, v ...interface{})
 }
 
-// Sender used as a hook interface methods
-type Sender interface {
-	Send(msg string)
-	Sendf(format string, v ...interface{})
-}
-
 // Option used to setup logging level and flag if we need to run it in another goroutine or not
 type Option struct {
 	Level   int
@@ -51,7 +45,6 @@ type Option struct {
 type Log struct {
 	opt     *Option
 	adapter Logger
-	senders []Sender
 	name    string
 }
 
@@ -61,6 +54,7 @@ type ContextualLog struct {
 	startTime time.Time
 	meta      []KeyValue
 	name      string
+	id        string
 }
 
 // Optional used as functional options to our logging

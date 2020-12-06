@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/fatih/color"
+	"github.com/rs/xid"
 )
 
 // KV used to setup new object KeyValue
@@ -14,9 +15,11 @@ func KV(key string, val interface{}) KeyValue {
 
 // Contextual used to create new instance of ContextualLog
 func Contextual(adapter Logger, name string) *ContextualLog {
+	guid := xid.New()
 	return &ContextualLog{
 		adapter:   adapter,
 		name:      name,
+		id:        guid.String(),
 		startTime: time.Now().UTC(),
 	}
 }
@@ -93,6 +96,10 @@ func (c *ContextualLog) Fatalf(format string, v ...interface{}) *ContextualLog {
 }
 
 func (c *ContextualLog) printOutMeta() {
+	// additional default meta for _id_ and _name_
+	c.Warnf("%s %s: %v", c.colorizedOutput("[meta]", color.FgYellow), "_id_", c.id)
+	c.Warnf("%s %s: %v", c.colorizedOutput("[meta]", color.FgYellow), "_name_", c.name)
+
 	for _, kv := range c.meta {
 		c.Warnf("%s %s: %v", c.colorizedOutput("[meta]", color.FgYellow), kv.Key, kv.Value)
 	}

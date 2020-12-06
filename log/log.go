@@ -34,12 +34,6 @@ func New(adapter Logger, name string, options ...Optional) *Log {
 	return &l
 }
 
-// WithSender used to register sender's object to sender registry
-func (l *Log) WithSender(sender Sender) *Log {
-	l.senders = append(l.senders, sender)
-	return l
-}
-
 // Debug .
 func (l *Log) Debug(msg string) *Log {
 	if l.opt.Level > LevelDebug {
