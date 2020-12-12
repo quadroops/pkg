@@ -8,7 +8,7 @@ What this library provides are:
 - Simple but consistent log interface methods
 - Contextual log.  Log based on some context can be an event / a process, or anything, the main point is we can manage our log
 more specific and detail.  Contextual log also provide logging metadata and also time measurement.  Metadata will printed out only
-if an error happened, using `Warn`.  If you are using contextual logging, all logging's level will be enabled except for `Debug` level.  
+if an error happened, using `Warn`.  If you are using contextual logging, all logging's level will be enabled except for `Debug` level, there are no options to set minimal logging level if you are using `ContextualLog`.
 
 We are not try to create a "new log writer", we are using adapter for that purpose.
 
@@ -69,7 +69,59 @@ log.LevelFatal
 
 This log level only applied for standard logging and not for `ContextualLog`.
 
-## Contextual
+## Installation
+
+```
+go get -v -u github.com/quadroops/pkg/log
+```
+
+## Usages (Standard logging)
+
+An example :
+
+```go
+// adapter using zerolog 
+logger = log.New(adapter.NewZerolog(), "mylogger")
+logger.Info("hello world")
+
+// chaining
+logger = log.New(adapter.NewZerolog(), "mylogger")
+logger.Info("log some variable").Info("another variable").Error("error here")
+
+// adapter using zerolog with additional poster
+logger = log.New(adapter.NewZerolog(), "mylogger").WithSender(sender.Console())
+logger.Info("hello world")
+
+// without adapter, will use golang log standard library, but, you can't use `Sender`
+log.Info("hello world")
+```
+
+Options available :
+
+```go
+type Option struct {
+    Level   int     // set minimal log level, by default: LevelDebug
+    IsAsync bool    // if this option is enable, all logging method from an adapter will run in another goroutines, by default: false
+}
+```
+
+Example using options :
+
+```go
+// adapter using zerolog , this log only enabled if current activity using Info
+logger = log.New(adapter.Zerolog(), "mylogger", log.WithOptionLevel(log.LevelInfo))
+logger.Info("hello world")
+
+// set async
+logger = log.New(adapter.Zerolog(), "mylogger", log.WithAsyncEnabled())
+logger.Info("hello world") // logging will run in another goroutine 
+
+// setup both
+logger = log.New(adapter.Zerolog(), "mylogger", log.WithAsyncEnabled(), log.WithOptionLevel(log.LevelInfo))
+logger.Info("hello world") // logging will run in another goroutine 
+```
+
+## Usages (Contextual logging)
 
 The main concept of our "contextual log" is about how we manage / grouping our log based on some specific context.  A "context" can be an event , a process or anything
 relate with your application's domain activities.
@@ -123,56 +175,4 @@ An example output:
 2020-12-05T12:06:08+07:00 WRN [process1]: [meta] key2: 2
 2020-12-05T12:06:08+07:00 ERR [process1]: Then error...
 2020-12-05T12:06:08+07:00 INF [process1]: Measurement: 7.0059645s
-```
-
-## Installation
-
-```
-go get -v -u github.com/quadroops/pkg/log
-```
-
-## Usages
-
-An example :
-
-```go
-// adapter using zerolog 
-logger = log.New(adapter.NewZerolog(), "mylogger")
-logger.Info("hello world")
-
-// chaining
-logger = log.New(adapter.NewZerolog(), "mylogger")
-logger.Info("log some variable").Info("another variable").Error("error here")
-
-// adapter using zerolog with additional poster
-logger = log.New(adapter.NewZerolog(), "mylogger").WithSender(sender.Console())
-logger.Info("hello world")
-
-// without adapter, will use golang log standard library, but, you can't use `Sender`
-log.Info("hello world")
-```
-
-Options available :
-
-```go
-type Option struct {
-    Level   int     // set minimal log level, by default: LevelDebug
-    IsAsync bool    // if this option is enable, all logging method from an adapter will run in another goroutines, by default: false
-}
-```
-
-Example using options :
-
-```go
-// adapter using zerolog , this log only enabled if current activity using Info
-logger = log.New(adapter.Zerolog(), "mylogger", log.WithOptionLevel(log.LevelInfo))
-logger.Info("hello world")
-
-// set async
-logger = log.New(adapter.Zerolog(), "mylogger", log.WithAsyncEnabled())
-logger.Info("hello world") // logging will run in another goroutine 
-
-// setup both
-logger = log.New(adapter.Zerolog(), "mylogger", log.WithAsyncEnabled(), log.WithOptionLevel(log.LevelInfo))
-logger.Info("hello world") // logging will run in another goroutine 
 ```
