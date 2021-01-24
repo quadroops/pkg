@@ -1,5 +1,7 @@
 # Domain
 
+[![PkgGoDev](https://pkg.go.dev/badge/github.com/quadroops/pkg/domain)](https://pkg.go.dev/github.com/quadroops/pkg/domain)
+
 This is a simple library to supporting working using DDD (domain driven design).  This library provides:
 
 - base entity
@@ -130,6 +132,7 @@ login := usecase.NewLogin(
 		uidGenerator(domain.UID("uid"), nil),
 	)
 
+// token.TokenCreated is an event's name
 event := domain.NewEventProvider(login)
 event.Setup().RegisterHandler(token.TokenCreated, func(payload interface{}) {
     input, valid := payload.(token.EventPayload)
