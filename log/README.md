@@ -87,13 +87,6 @@ logger.Info("hello world")
 // chaining
 logger = log.New(adapter.NewZerolog(), "mylogger")
 logger.Info("log some variable").Info("another variable").Error("error here")
-
-// adapter using zerolog with additional poster
-logger = log.New(adapter.NewZerolog(), "mylogger").WithSender(sender.Console())
-logger.Info("hello world")
-
-// without adapter, will use golang log standard library, but, you can't use `Sender`
-log.Info("hello world")
 ```
 
 Options available :
